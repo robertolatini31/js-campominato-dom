@@ -38,6 +38,10 @@ main {
    overflow-y: hidden;
 }
 
+.top_80 {
+    top: 300px;
+}
+
 .bg_mint {
     background-color: var(--main-bg_color);
 }

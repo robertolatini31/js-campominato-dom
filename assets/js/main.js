@@ -186,5 +186,21 @@ function endGame(arrayBombs, query_selector_cells, points, interval) {
             cell.classList.add('bg_blu_click'); // coloro di blu
         }
     }
+    cardResults(points, interval);
     
 }
+
+// creo una funzione che fa apparire una card alla vittoria o sconfitta
+    function cardResults(points, interval) {
+        if (points + 16 == interval) {
+            // collego la card vittoria
+            const win_card = document.getElementById('winner_card');
+            win_card.classList.remove('d-none'); // elimino la classe dispaly none
+        } else {
+            const lose_card = document.getElementById('lose_card'); // collego la card sconfitta
+            lose_card.classList.remove('d-none'); // elimino la classe dispaly none
+            // collego il testop per aggiungere i punti
+            const pointsTextElement = document.getElementById('lose_points_text');
+            pointsTextElement.innerHTML += points;
+        }
+    }
