@@ -24,14 +24,14 @@ btnPlayElement.addEventListener('click', function(){
     let size;
     // selettore intervallo
     if(difficultyElement == 1) {
-        interval = 49;
-        size = 'size_7';
+        interval = 100;
+        size = 'size_10';
     } else if (difficultyElement == 2) {
         interval = 81;
         size = 'size_9';
     } else {
-        interval = 100;
-        size = 'size_10';
+        interval = 49;
+        size = 'size_7';
     }
     // chiamo la funzione che crea le cell e la salvo in una variabile
     const cellElements = creatorSquareCell(interval, '.container_small>.cells', 'div', 'cell', size);
@@ -126,9 +126,11 @@ function addClickEvents(query_selector_cells, arrayBombs) {
             if (cell.textContent == arrayBombs[j]) { 
                 cell.addEventListener('click', function() { // aggiungo il rosso al click
                     cell.classList.add('bg_red_click');
+                    endGame(arrayBombs, query_selector_cells);
                 });
                 control_red = true; // metto su true il controllo (è una bomba)
                 //console.log('controllo:' + control_red);
+                
             }
         }
         if (!control_red) { // se non è una bomba
@@ -141,6 +143,38 @@ function addClickEvents(query_selector_cells, arrayBombs) {
 }
 
 
-// se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba
-// la cella si colora di rosso e la partita termina,
+// se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba ----------OK
+
+// la cella si colora di rosso -----OK
+// e la partita termina, ___ OK
 // altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.
+
+// creo una funzione per la fine della parita
+function endGame(arrayBombs, query_selector_cells) { 
+    // faccio colorare tutta la tabella
+    const cells = document.querySelectorAll(query_selector_cells); // collego tutte le cell in un array cells
+    for(let i = 0; i < cells.length; i++) { // ciclo che scorre tutte le cell
+        const cell = cells[i]; // collego ogni cell delle cellls
+        //console.log(cell);
+        let control_red = false; // inizializzo una variabile di controllo su false (non è una bomba)
+        for(let j = 0; j < arrayBombs.length; j++){ // creo ciclo che scorre l'array dell bombe
+            // se il numero della cell è nell array coloro di rosso
+            //console.log(arrayBombs[j]);
+            if (cell.textContent == arrayBombs[j]) { 
+                cell.removeEventListener('click', function() { // aggiungo il rosso al click
+                    cell.classList.add('bg_red_click'); // rimuovo il click
+                });
+                cell.classList.add('bg_red_click'); // coloro di rosso
+            
+                control_red = true; // metto su true il controllo (è una bomba)
+                //console.log('controllo:' + control_red);
+            }
+        }
+        if (!control_red) { // se non è una bomba
+            cell.removeEventListener('click', function() { // rimuovo il click
+            cell.classList.add('bg_blu_click');
+            });
+            cell.classList.add('bg_blu_click'); // coloro di blu
+        }
+    }
+}
