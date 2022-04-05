@@ -43,7 +43,9 @@ btnPlayElement.addEventListener('click', function(){
     const bombs = noDuplicateNumbers(16, 1, interval);
 
     // creo la funzionalità che colora di blu i quadrati al click
-     addClickEvents('.cell', bombs);
+    const points = addClickEvents('.cell', bombs);
+
+    
     
 });
 
@@ -114,7 +116,8 @@ function noDuplicateNumbers(listLength, min, max) {
 
 // facciouna funzione solo per il click
 // creo una funzione che aggiunge i numeri alle cell
-function addClickEvents(query_selector_cells, arrayBombs) {
+function addClickEvents(query_selector_cells, arrayBombs, interval) {
+    let points = 0;
     const cells = document.querySelectorAll(query_selector_cells); // collego tutte le cell in un array cells
     for(let i = 0; i < cells.length; i++) { // ciclo che scorre tutte le cell
         const cell = cells[i]; // collego ogni cell delle cellls
@@ -126,7 +129,7 @@ function addClickEvents(query_selector_cells, arrayBombs) {
             if (cell.textContent == arrayBombs[j]) { 
                 cell.addEventListener('click', function() { // aggiungo il rosso al click
                     cell.classList.add('bg_red_click');
-                    endGame(arrayBombs, query_selector_cells);
+                    endGame(arrayBombs, query_selector_cells, points, interval);
                 });
                 control_red = true; // metto su true il controllo (è una bomba)
                 //console.log('controllo:' + control_red);
@@ -136,6 +139,12 @@ function addClickEvents(query_selector_cells, arrayBombs) {
         if (!control_red) { // se non è una bomba
             cell.addEventListener('click', function() { // aggiungo il blu
             cell.classList.add('bg_blu_click');
+            points++; // incremento i punti ogni click
+            if(points + 16 == interval) // se i punti più le bombe sono tutta la tabella l'utente ha vinto
+            {
+                endGame(arrayBombs, query_selector_cells, points, interval);
+            }
+            console.log('punti:' + points);
             });
         }
         
@@ -150,7 +159,7 @@ function addClickEvents(query_selector_cells, arrayBombs) {
 // altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.
 
 // creo una funzione per la fine della parita
-function endGame(arrayBombs, query_selector_cells) { 
+function endGame(arrayBombs, query_selector_cells, points, interval) { 
     // faccio colorare tutta la tabella
     const cells = document.querySelectorAll(query_selector_cells); // collego tutte le cell in un array cells
     for(let i = 0; i < cells.length; i++) { // ciclo che scorre tutte le cell
@@ -176,5 +185,11 @@ function endGame(arrayBombs, query_selector_cells) {
             });
             cell.classList.add('bg_blu_click'); // coloro di blu
         }
+    }
+    //creo un'allerta che dà il punteggio all'utente
+    if (points + 16 != interval) {
+        alert('Hai PERSO il tuo punteggio è ' + points);
+    } else {
+        alert('Complimenti! Hai VINTO!');
     }
 }
