@@ -71,3 +71,41 @@ function addCellNumber(query_selector, tagName) {
     }
 }
 
+
+// Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe :bomba:.
+
+// prendo la funzione che genera numeri tra un max e un min
+function randomNumbers(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+//console.log('ho generato il numero:' + randomNumbers(1, 100));   
+// I numeri nella lista delle bombe non possono essere duplicati.
+
+//creo una funzione che crei una lista (data una lunghezza e range numeri min max included) di numeri non duplicati
+function noDuplicateNumbers(listLength, min, max) {
+    let listNumbersArray = []; // inizializzo un array a cui assegno la lista di numeri
+    //console.log('è l array inizializ' + listNumbersArray);
+    while (listNumbersArray.length != listLength) { // ciclo finchè il mio array non è della lunghezza inserita
+        // genero un numero random
+        let NumberGenerated = randomNumbers(min, max);
+        //console.log('numero gen:' + NumberGenerated);
+         // se non c'è già
+        let control = false; // inizializzo la variabile che controlla la presenza su false (non c'è quest'elemento nell array)
+        //console.log(control);
+        for(let i = 0; i < listNumbersArray.length; i++) { //imposto un ciclo che scorre l'array
+            if (listNumbersArray[i] == NumberGenerated) { // controllo per ogni elemento dell array se quello generato è uguale 
+                control = true; // se lo trova uguale attiva con true il controllo
+                console.log(control);
+            }
+        }
+        // lo voglio mettere nell array 
+        if (!control) { // se il controllo è rimasto false (non c'è già l'elemento generato nell'array)
+            listNumbersArray.push(NumberGenerated); // metto l'elemtno generato nell'array
+        }
+        //console.log(listNumbersArray);
+    }
+    return listNumbersArray;
+}
+
+
