@@ -201,6 +201,22 @@ function endGame(arrayBombs, query_selector_cells, points, interval) {
             lose_card.classList.remove('d-none'); // elimino la classe dispaly none
             // collego il testop per aggiungere i punti
             const pointsTextElement = document.getElementById('lose_points_text');
-            pointsTextElement.innerHTML += points;
+            pointsTextElement.innerHTML = points;
         }
+       
     }
+
+ // al click dei btn ok sulle card rimetto la classe display none
+ const btnWinCard = document.getElementById('btn_win_card');
+btnWinCard.addEventListener('click', function() {
+    // collego la card vittoria
+    const win_card = document.getElementById('winner_card');
+    win_card.classList.add('d-none'); // elimino la classe dispaly none
+});
+
+const btnLoseCard = document.getElementById('btn_lose_card'); // collego la card sconfitta
+btnLoseCard.addEventListener('click', function() {
+    lose_card.classList.add('d-none'); // elimino la classe dispaly none
+    // collego il testop per aggiungere i punti
+});
+

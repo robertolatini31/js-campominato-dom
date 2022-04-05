@@ -38,8 +38,12 @@ main {
    overflow-y: hidden;
 }
 
+.mx_auto{
+    margin: 1rem auto;
+}
+
 .top_80 {
-    top: 300px;
+    top: 350px;
 }
 
 .bg_mint {

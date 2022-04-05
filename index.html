@@ -36,18 +36,20 @@
                 <!-- /.col selectors -->
             </div>
             <!-- /.row row-cols-2 -->
-            <div id="winner_card" class="card position-absolute top_80 start-50 translate-middle d-none" style="width: 18rem;">
+            <div id="winner_card" class="card border-success position-absolute top_80 start-50 translate-middle d-none" style="width: 18rem;">
                 <img src="./assets/img/winner.jpeg" class="card-img-top">
                 <div class="card-body">
                   <p class="card-text text-center">Complimenti! Hai VINTO!</p>
                 </div>
+                <button id="btn_win_card" type="button" class="btn btn-outline-success rounded-circle mx_auto">OK</button>
               </div>
               <!-- /. card winner  -->
-              <div id="lose_card" class="card position-absolute top_80 start-50 translate-middle d-none" style="width: 18rem;">
+              <div id="lose_card" class="card border-danger position-absolute top_80 start-50 translate-middle d-none" style="width: 18rem;">
                 <img src="./assets/img/lose.jpeg" class="card-img-top">
                 <div class="card-body">
-                  <p id="lose_points_text" class="card-text text-center">Hai perso! <br> Punti: </p>
+                  <p class="card-text text-center">Hai perso! <br> Punti: <span id="lose_points_text"></span></p>
                 </div>
+                <button id="btn_lose_card" type="button" class="btn btn-outline-danger mx_auto rounded-circle">OK</button>
               </div>
               <!-- /.card lose  -->
         </div>
