@@ -118,17 +118,17 @@ function addClickEvents(query_selector_cells, arrayBombs) {
     const cells = document.querySelectorAll(query_selector_cells); // collego tutte le cell in un array cells
     for(let i = 0; i < cells.length; i++) { // ciclo che scorre tutte le cell
         const cell = cells[i]; // collego ogni cell delle cellls
-        console.log(cell);
+        //console.log(cell);
         let control_red = false; // inizializzo una variabile di controllo su false (non è una bomba)
         for(let j = 0; j < arrayBombs.length; j++){ // creo ciclo che scorre l'array dell bombe
             // se il numero della cell è nell array coloro di rosso
-            console.log(arrayBombs[j]);
+            //console.log(arrayBombs[j]);
             if (cell.textContent == arrayBombs[j]) { 
                 cell.addEventListener('click', function() { // aggiungo il rosso al click
                     cell.classList.add('bg_red_click');
                 });
                 control_red = true; // metto su true il controllo (è una bomba)
-                console.log('controllo:' + control_red);
+                //console.log('controllo:' + control_red);
             }
         }
         if (!control_red) { // se non è una bomba
