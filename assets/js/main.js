@@ -186,10 +186,5 @@ function endGame(arrayBombs, query_selector_cells, points, interval) {
             cell.classList.add('bg_blu_click'); // coloro di blu
         }
     }
-    //creo un'allerta che dà il punteggio all'utente
-    if (points + 16 != interval) {
-        alert('Hai PERSO il tuo punteggio è ' + points);
-    } else {
-        alert('Complimenti! Hai VINTO!');
-    }
+    
 }
