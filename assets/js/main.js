@@ -96,7 +96,7 @@ function noDuplicateNumbers(listLength, min, max) {
         for(let i = 0; i < listNumbersArray.length; i++) { //imposto un ciclo che scorre l'array
             if (listNumbersArray[i] == NumberGenerated) { // controllo per ogni elemento dell array se quello generato è uguale 
                 control = true; // se lo trova uguale attiva con true il controllo
-                console.log(control);
+                //console.log(control);
             }
         }
         // lo voglio mettere nell array 
