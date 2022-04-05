@@ -76,6 +76,11 @@ main {
     color: white;
 }
 
+.bg_red_click {
+    background-color: lightcoral;
+    color: white;
+}
+
 footer .col {
     height: 80px!important;
 }

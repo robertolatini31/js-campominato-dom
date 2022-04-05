@@ -24,23 +24,26 @@ btnPlayElement.addEventListener('click', function(){
     let size;
     // selettore intervallo
     if(difficultyElement == 1) {
-        interval = 100;
-        size = 'size_10';
+        interval = 49;
+        size = 'size_7';
     } else if (difficultyElement == 2) {
         interval = 81;
         size = 'size_9';
     } else {
-        interval = 49;
-        size = 'size_7';
+        interval = 100;
+        size = 'size_10';
     }
     // chiamo la funzione che crea le cell e la salvo in una variabile
     const cellElements = creatorSquareCell(interval, '.container_small>.cells', 'div', 'cell', size);
     
     // chiamo la funzione che aggiunge i numeri alle cell
-    const cellNumbers = addCellNumber('.cell', 'span');
+    const cellNumbers = addCellNumber('.cell');
+
+    //creo una lista (data una lunghezza e range numeri min max included) di numeri non duplicati
+    const bombs = noDuplicateNumbers(16, 1, interval);
 
     // creo la funzionalità che colora di blu i quadrati al click
-
+     addClickEvents('.cell', bombs);
     
 });
 
@@ -56,18 +59,16 @@ function creatorSquareCell(amount, query_selector, tagName, className, classSize
 }
 
 // creo una funzione che aggiunge i numeri alle cell
-function addCellNumber(query_selector, tagName) {
+function addCellNumber(query_selector) {
     const cells = document.querySelectorAll(query_selector);
     let j = 1;
     for(let i = 0; i < cells.length; i++) {
         const cell = cells[i];
-        const spanElement = document.createElement(tagName);
-        spanElement.append(j);
-        cell.append(spanElement);
+        cell.append(j);
         j++;
-        cell.addEventListener('click', function() {
-            cell.classList.add('bg_blu_click');
-        });
+        // cell.addEventListener('click', function() {
+        //     cell.classList.add('bg_blu_click');
+        // });
     }
 }
 
@@ -109,3 +110,37 @@ function noDuplicateNumbers(listLength, min, max) {
 }
 
 
+// In seguito l'utente clicca su una cella:
+
+// facciouna funzione solo per il click
+// creo una funzione che aggiunge i numeri alle cell
+function addClickEvents(query_selector_cells, arrayBombs) {
+    const cells = document.querySelectorAll(query_selector_cells); // collego tutte le cell in un array cells
+    for(let i = 0; i < cells.length; i++) { // ciclo che scorre tutte le cell
+        const cell = cells[i]; // collego ogni cell delle cellls
+        console.log(cell);
+        let control_red = false; // inizializzo una variabile di controllo su false (non è una bomba)
+        for(let j = 0; j < arrayBombs.length; j++){ // creo ciclo che scorre l'array dell bombe
+            // se il numero della cell è nell array coloro di rosso
+            console.log(arrayBombs[j]);
+            if (cell.textContent == arrayBombs[j]) { 
+                cell.addEventListener('click', function() { // aggiungo il rosso al click
+                    cell.classList.add('bg_red_click');
+                });
+                control_red = true; // metto su true il controllo (è una bomba)
+                console.log('controllo:' + control_red);
+            }
+        }
+        if (!control_red) { // se non è una bomba
+            cell.addEventListener('click', function() { // aggiungo il blu
+            cell.classList.add('bg_blu_click');
+            });
+        }
+        
+    }
+}
+
+
+// se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba
+// la cella si colora di rosso e la partita termina,
+// altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.
