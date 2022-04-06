@@ -185,7 +185,7 @@ function endGame(arrayBombs, query_selector_cells, points, interval) {
             if (cell.textContent == arrayBombs[j]) { 
                 cell.removeEventListener('click', clickEvent);
                 cell.classList.add('bg_red_click'); // coloro di rosso
-            
+                cell.innerHTML = '💣';
                 control_red = true; // metto su true il controllo (è una bomba)
                 //console.log('controllo:' + control_red);
             }
