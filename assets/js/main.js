@@ -117,38 +117,51 @@ function noDuplicateNumbers(listLength, min, max) {
 // facciouna funzione solo per il click
 // creo una funzione che aggiunge i numeri alle cell
 function addClickEvents(query_selector_cells, arrayBombs, interval) {
-    let points = 0;
+    const points = [];
     const cells = document.querySelectorAll(query_selector_cells); // collego tutte le cell in un array cells
     for(let i = 0; i < cells.length; i++) { // ciclo che scorre tutte le cell
         const cell = cells[i]; // collego ogni cell delle cellls
         //console.log(cell);
-        let control_red = false; // inizializzo una variabile di controllo su false (non è una bomba)
+        cell.addEventListener('click', clickEvent);  //collego l' eventlistener a ogni cella
+        cell.arrayBombs = arrayBombs;
+        cell.query_selector_cells = query_selector_cells;
+        cell.interval = interval;
+        cell.points = points;
+    }
+}
+
+
+// faccio una funzione solo per il click
+
+function clickEvent(checkClick) {
+    const arrayBombs = checkClick.target.arrayBombs;
+    const query_selector_cells = checkClick.target.query_selector_cells;
+    const interval = checkClick.target.interval;
+    const points = checkClick.target.points;
+    let control_red = false; // inizializzo una variabile di controllo su false (non è una bomba)
         for(let j = 0; j < arrayBombs.length; j++){ // creo ciclo che scorre l'array dell bombe
             // se il numero della cell è nell array coloro di rosso
             //console.log(arrayBombs[j]);
-            if (cell.textContent == arrayBombs[j]) { 
-                cell.addEventListener('click', function() { // aggiungo il rosso al click
-                    cell.classList.add('bg_red_click');
+            if (this.innerText == arrayBombs[j]) { 
+                // aggiungo il rosso al click
+                    this.classList.add('bg_red_click');
                     endGame(arrayBombs, query_selector_cells, points, interval);
-                });
                 control_red = true; // metto su true il controllo (è una bomba)
                 //console.log('controllo:' + control_red);
-                
             }
         }
         if (!control_red) { // se non è una bomba
-            cell.addEventListener('click', function() { // aggiungo il blu
-            cell.classList.add('bg_blu_click');
-            points++; // incremento i punti ogni click
-            if(points + 16 == interval) // se i punti più le bombe sono tutta la tabella l'utente ha vinto
+           // aggiungo il blu
+            this.classList.add('bg_blu_click');
+            if (!points.includes(this.innerText)) {
+                points.push(this.innerText);
+            } // incremento i punti ogni click
+            if(points.length + 16 == interval) // se i punti più le bombe sono tutta la tabella l'utente ha vinto
             {
                 endGame(arrayBombs, query_selector_cells, points, interval);
             }
-            console.log('punti:' + points);
-            });
+            console.log('punti:' + points.length);
         }
-        
-    }
 }
 
 
@@ -170,9 +183,7 @@ function endGame(arrayBombs, query_selector_cells, points, interval) {
             // se il numero della cell è nell array coloro di rosso
             //console.log(arrayBombs[j]);
             if (cell.textContent == arrayBombs[j]) { 
-                cell.removeEventListener('click', function() { // aggiungo il rosso al click
-                    cell.classList.add('bg_red_click'); // rimuovo il click
-                });
+                cell.removeEventListener('click', clickEvent);
                 cell.classList.add('bg_red_click'); // coloro di rosso
             
                 control_red = true; // metto su true il controllo (è una bomba)
@@ -180,10 +191,7 @@ function endGame(arrayBombs, query_selector_cells, points, interval) {
             }
         }
         if (!control_red) { // se non è una bomba
-            cell.removeEventListener('click', function() { // rimuovo il click
-            cell.classList.add('bg_blu_click');
-            });
-            cell.classList.add('bg_blu_click'); // coloro di blu
+            cell.removeEventListener('click', clickEvent);
         }
     }
     cardResults(points, interval);
@@ -192,7 +200,7 @@ function endGame(arrayBombs, query_selector_cells, points, interval) {
 
 // creo una funzione che fa apparire una card alla vittoria o sconfitta
     function cardResults(points, interval) {
-        if (points + 16 == interval) {
+        if (points.length + 16 == interval) {
             // collego la card vittoria
             const win_card = document.getElementById('winner_card');
             win_card.classList.remove('d-none'); // elimino la classe dispaly none
@@ -201,7 +209,7 @@ function endGame(arrayBombs, query_selector_cells, points, interval) {
             lose_card.classList.remove('d-none'); // elimino la classe dispaly none
             // collego il testop per aggiungere i punti
             const pointsTextElement = document.getElementById('lose_points_text');
-            pointsTextElement.innerHTML = points;
+            pointsTextElement.innerHTML = points.length;
         }
        
     }
